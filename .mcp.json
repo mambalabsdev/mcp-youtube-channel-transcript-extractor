@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mamba-youtube-channel-stats": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mambalabsdev/mcp-youtube-channel-transcript-extractor"
+      ],
+      "env": {
+        "APIFY_TOKEN": "your-apify-token"
+      }
+    }
+  }
+}
