@@ -1,0 +1,94 @@
+{
+  "_provenance": {
+    "actorId": "6hSpD3kd2s2IQ4VSs",
+    "buildId": "1xkrJfeTwVbx5yQ00",
+    "buildNumber": "0.1.6",
+    "readAt": "2026-10-05T15:45:01.737Z"
+  },
+  "title": "YouTube Channel Stats Extractor - Subscribers by Domain Input",
+  "description": "Give a company domain or a YouTube handle and get the channel with its subscriber count, channel id, creation date and description. Transcript pulling is a separate switch, off by default, and YouTube currently gates the caption content it needs. Free Apify plan users get 900 results per calendar month, reset monthly. Upgrade to any paid Apify plan for unlimited use: https://apify.com/pricing?fpr=mamba",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "company_domain": {
+      "title": "Company Domain",
+      "type": "string",
+      "description": "Bare company domain, for example shopify.com. Supply this or a handle. With a domain the actor runs full discovery; with a handle it skips straight to the fetch.",
+      "editor": "textfield",
+      "prefill": "shopify.com"
+    },
+    "company_name": {
+      "title": "Company Name",
+      "type": "string",
+      "description": "Optional. Improves search accuracy and is what the identity gate checks a discovered profile against, so supplying it reduces wrong matches.",
+      "editor": "textfield",
+      "prefill": "Shopify"
+    },
+    "handle": {
+      "title": "YouTube Handle or Channel URL",
+      "type": "string",
+      "description": "Optional. A YouTube handle such as @shopify, or a full channel URL. Supplying it skips discovery and goes straight to the channel.",
+      "editor": "textfield",
+      "prefill": ""
+    },
+    "includeFollowerCounts": {
+      "title": "Include Follower Counts",
+      "type": "string",
+      "description": "When \"true\" (default) the profile page is fetched and the counts are extracted. Set \"false\" to resolve the profile URL only, which is cheaper and needs no proxy. Sent as a string for Clay compatibility.",
+      "editor": "select",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "true (URL plus follower counts)",
+        "false (URL only, cheaper)"
+      ],
+      "default": "true"
+    },
+    "skipCache": {
+      "title": "Skip Cache",
+      "type": "string",
+      "description": "When \"false\" (default) a successful lookup is cached for seven days and reused. Set \"true\" to force a fresh fetch. Sent as a string for Clay compatibility.",
+      "editor": "select",
+      "enum": [
+        "false",
+        "true"
+      ],
+      "enumTitles": [
+        "false (use cache)",
+        "true (force fresh)"
+      ],
+      "default": "false"
+    },
+    "includeTranscripts": {
+      "title": "Include Video Transcripts",
+      "type": "string",
+      "description": "When \"true\", full timestamped transcripts are pulled for the most recent videos on the channel and returned as one row per video. Default is \"false\" because transcripts are the expensive half of this actor and most buyers want channel stats only. Sent as a string for Clay compatibility.",
+      "editor": "select",
+      "enum": [
+        "false",
+        "true"
+      ],
+      "enumTitles": [
+        "false (channel stats only, cheaper)",
+        "true (stats plus transcripts, one row per video)"
+      ],
+      "default": "false"
+    },
+    "transcriptVideoCount": {
+      "title": "How Many Videos to Transcribe",
+      "type": "string",
+      "description": "How many of the channel's most recent videos to pull transcripts for, when transcripts are on. Default 5. Each video is one extra fetch and one extra billable transcript event, so this is the dial that sets the cost of a transcript run.",
+      "editor": "textfield",
+      "prefill": "5",
+      "default": "5"
+    },
+    "source_tag": {
+      "title": "Source Tag",
+      "type": "string",
+      "description": "Internal attribution tag set by Mamba Labs on published task examples. Not required, and nothing depends on it. Leave it empty.",
+      "editor": "textfield"
+    }
+  }
+}
