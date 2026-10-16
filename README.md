@@ -53,6 +53,7 @@ Tool: `get_youtube_channel_stats`
 | `skipCache` | boolean | When "false" (default) a successful lookup is cached for seven days and reused. Set "true" to force a fresh fetch. Sent as a string for Clay compatibi |
 | `includeTranscripts` | boolean | When "true", full timestamped transcripts are pulled for the most recent videos on the channel and returned as one row per video. Default is "false" b |
 | `transcriptVideoCount` | string | How many of the channel's most recent videos to pull transcripts for, when transcripts are on. Default 5. Each video is one extra fetch and one extra  |
+| `max_charge_usd` | number | Optional spending cap for this call, in USD. The actor stops before any charge that would take the run past this amount and keeps every row already charged. |
 
 ## Reading the output
 
@@ -71,6 +72,20 @@ first. The vocabulary is the same across the whole Mamba Labs social family:
 **`false` and `null` are never interchangeable.** `false` means we looked and the
 answer is no. `null` means we could not look. If you filter for companies with no
 presence, filter on `false`, because `null` rows are unknown rather than absent.
+
+## Pricing
+
+You pay per event on Apify, billed to your own Apify account. Prices from the live pricing record, read 2026-10-16:
+
+| Event | Price per event (USD) | Fires when |
+| --- | --- | --- |
+| `apify-actor-start` | $0.00005 | Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event). |
+| `company-checked` | $0.0035 on the Free plan, down to $0.00245 on higher Apify plans | Once per company for which the discovery cascade completed and a non degraded channel row was produced, whether or not a channel was found. Does not fire on a degraded row. |
+| `profile-resolved` | $0.0025 on the Free plan, down to $0.00175 on higher Apify plans | Once per company whose candidate channel URL passed the identity gate. Fires on the validation work, not on a populated subscriber cell. |
+| `follower-count-extracted` | $0.0025 on the Free plan, down to $0.00175 on higher Apify plans | Once per channel where a numeric subscriber count was read off the public page. Does not fire when the owner has hidden the count, which reports not_extractable. |
+| `transcript-extracted` | $0.015 on the Free plan, down to $0.0105 on higher Apify plans | Once per video for which transcript TEXT was actually returned. A video with no caption track does not charge, and neither does a video whose caption track exists but whose content YouTube refused to serve. Never fires when transcripts are turned off. This is deliberately strict: the fetch costs us roughly a cent whether or not it yields text, and the buyer should not carry that. |
+
+The [actor's Apify page](https://apify.com/mambalabs/youtube-channel-transcript-extractor) carries the current prices. Running this server consumes Apify credits.
 
 ## Full actor documentation
 
