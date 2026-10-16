@@ -6,6 +6,16 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
+// Optional per call spending cap, passed through to the actor's own max_charge_usd
+// input. The actor enforces it; this wrapper only forwards it when set.
+const MAX_CHARGE_USD = z
+  .number()
+  .min(0)
+  .optional()
+  .describe(
+    "Optional spending cap for this call, in USD, passed to the actor as max_charge_usd. The run stops before any charge that would take it past this amount and keeps every row already charged. Leave empty to rely only on the maximum charge per run set on your Apify account.",
+  );
+
 const here = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(
   readFileSync(join(here, "..", "package.json"), "utf8"),
@@ -77,7 +87,9 @@ async function runActor(
   actorPath: string,
   actorLabel: string,
   input: Record<string, unknown>,
+  maxChargeUsd?: number,
 ): Promise<ToolResult> {
+  if (maxChargeUsd !== undefined) input = { ...input, max_charge_usd: maxChargeUsd };
   const APIFY_TOKEN = process.env.APIFY_TOKEN;
   if (!APIFY_TOKEN) {
     return { isError: true, content: [{ type: "text", text: "APIFY_TOKEN is not set. Create a token at https://console.apify.com/account/integrations and set it as the APIFY_TOKEN environment variable." }] };
@@ -218,7 +230,7 @@ server.registerTool(
       "Resolve a company domain, or a YouTube handle, to that company's YouTube channel. Returns the subscriber count, the stable UC channel id, channel name, creation date and description, as one flat Clay ready row. Subscriber counts are rounded by YouTube above roughly a thousand subscribers, on the page and in its official API alike, and the row flags that. Optional transcript pulling is available and is CURRENTLY GATED by YouTube: the caption track list is readable and the caption content endpoint returns an empty body without a proof of origin token, which the row reports as not_extractable rather than as a video having no captions. A company with no channel reports youtube_status not_found. Read youtube_status before any count. Use it to look up one known company channel per call; it does not search YouTube, list a channel's videos, or return video detail, and the package name mentions transcripts only because transcript pulling is an option. No API key needed. Read only; requires an APIFY_TOKEN and consumes Apify credits per call.",
     annotations: {
       title: "Get YouTube Channel Stats",
-      readOnlyHint: true,
+      readOnlyHint: false,
       destructiveHint: false,
       idempotentHint: true,
       openWorldHint: true,
@@ -245,9 +257,10 @@ server.registerTool(
       transcriptVideoCount: z.string()
         .optional()
         .describe("How many of the channel's most recent videos to pull transcripts for, when transcripts are on. Default 5. Each video is one extra fetch and one extra billable transcript event, so this is the dial that sets the cost of a transcript run."),
+      max_charge_usd: MAX_CHARGE_USD,
     },
   },
-  async ({ company_domain, company_name, handle, includeFollowerCounts, skipCache, includeTranscripts, transcriptVideoCount }) => {
+  async ({ company_domain, company_name, handle, includeFollowerCounts, skipCache, includeTranscripts, transcriptVideoCount, max_charge_usd }) => {
     return runActor(
       "6hSpD3kd2s2IQ4VSs",
       "YouTube Channel Stats Extractor",
@@ -260,7 +273,7 @@ server.registerTool(
         includeTranscripts: boolToString(includeTranscripts),
         transcriptVideoCount,
       }),
-    );
+     max_charge_usd,);
   },
 );
 
