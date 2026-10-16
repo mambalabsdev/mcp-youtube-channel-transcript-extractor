@@ -4,6 +4,8 @@
 
 MCP server for the Mamba Labs **YouTube Channel Stats Extractor** actor on Apify.
 
+The npm package and the registry entry keep the name `mcp-youtube-channel-transcript-extractor`, so existing installs keep working; the product is YouTube Channel Stats Extractor.
+
 Resolve a company domain or YouTube handle to the channel with subscriber count and channel metadata.
 
 ## What it does

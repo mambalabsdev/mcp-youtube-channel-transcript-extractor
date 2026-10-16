@@ -1,8 +1,9 @@
 {
   "manifest_version": "0.3",
   "name": "mcp-youtube-channel-transcript-extractor",
-  "version": "1.2.0",
-  "description": "MCP server that resolve a company domain or YouTube handle to the channel with subscriber count and channel metadata.",
+  "display_name": "YouTube Channel Stats Extractor",
+  "version": "1.2.1",
+  "description": "MCP server for the Mamba Labs YouTube Channel Stats Extractor actor on Apify. Resolve a company domain or YouTube handle to the channel with subscriber count and channel metadata.",
   "author": {
     "name": "Mamba Labs"
   },
