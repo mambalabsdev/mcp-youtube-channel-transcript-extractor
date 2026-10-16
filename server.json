@@ -1,8 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.mambabuilt/mcp-youtube-channel-transcript-extractor",
-  "description": "Resolve a company domain to its YouTube channel with subscriber count and metadata.",
-  "version": "1.2.0",
+  "title": "YouTube Channel Stats Extractor",
+  "description": "YouTube Channel Stats Extractor: a company domain to its YouTube channel, subscribers, metadata.",
+  "version": "1.2.1",
   "repository": {
     "url": "https://github.com/mambalabsdev/mcp-youtube-channel-transcript-extractor",
     "source": "github"
@@ -11,7 +12,7 @@
     {
       "registryType": "npm",
       "identifier": "@mambalabsdev/mcp-youtube-channel-transcript-extractor",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "transport": {
         "type": "stdio"
       },
