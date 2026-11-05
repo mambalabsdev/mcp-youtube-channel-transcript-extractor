@@ -4,7 +4,7 @@
 
 <a href="https://mcprush.com/to/youtube-channel-transcript-extractor-mcp?ref=badge"><img width="380" height="200" src="https://mcprush.com/badge/youtube-channel-transcript-extractor-mcp/card.svg" alt="YouTube Channel Transcript Extractor MCP server" /></a>
 
-MCP server for the Mamba Labs **YouTube Channel Stats Extractor** actor on Apify.
+MCP server for the Mamba Labs [YouTube Channel from Company Domain](https://apify.com/mambalabs/youtube-channel-transcript-extractor) actor on Apify.
 
 The npm package and the registry entry keep the name `mcp-youtube-channel-transcript-extractor`, so existing installs keep working; the product is YouTube Channel Stats Extractor.
 

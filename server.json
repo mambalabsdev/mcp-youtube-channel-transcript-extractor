@@ -3,7 +3,7 @@
   "name": "com.mambabuilt/mcp-youtube-channel-transcript-extractor",
   "title": "YouTube Channel Stats Extractor",
   "description": "YouTube Channel Stats Extractor: a company domain to its YouTube channel, subscribers, metadata.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "repository": {
     "url": "https://github.com/mambalabsdev/mcp-youtube-channel-transcript-extractor",
     "source": "github"
@@ -12,7 +12,7 @@
     {
       "registryType": "npm",
       "identifier": "@mambalabsdev/mcp-youtube-channel-transcript-extractor",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "transport": {
         "type": "stdio"
       },
